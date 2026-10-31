@@ -26,6 +26,16 @@
 
   let timers = [];
 
+  // 3.png 风格：每条线路克隆出中层与外晕，形成「外晕内实」的霓虹管
+  document.querySelectorAll('.ts-path').forEach((p) => {
+    const mid = p.cloneNode(true);
+    mid.classList.add('ts-mid');
+    p.parentNode.insertBefore(mid, p);
+    const glow = p.cloneNode(true);
+    glow.classList.add('ts-glow');
+    p.parentNode.insertBefore(glow, p);
+  });
+
   function addLine(m) {
     const p = document.createElement('p');
     p.className = 'ts-line ' + m.cls;
