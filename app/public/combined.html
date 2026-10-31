@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>电力谈判桌 · 数字孪生 + 调度台</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    html, body { margin: 0; background: #04080e; }
+    .stage-frame {
+      display: block;
+      width: 100%;
+      height: 100vh;
+      border: 0;
+      background: #04080e;
+    }
+    .scroll-cue {
+      position: fixed;
+      right: 26px;
+      bottom: 22px;
+      z-index: 100;
+      padding: 10px 16px;
+      border: 1px solid rgba(0, 229, 255, 0.6);
+      border-radius: 999px;
+      background: rgba(4, 14, 22, 0.82);
+      color: #00e5ff;
+      font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 26px rgba(0, 229, 255, 0.25);
+    }
+    .scroll-cue:hover { background: rgba(0, 229, 255, 0.16); }
+    .bench-wrap {
+      padding-top: 0;
+      padding-bottom: 70px;
+      background:
+        radial-gradient(80% 40% at 50% 0%, rgba(0, 229, 255, 0.06), transparent 70%),
+        #070a0f;
+      border-top: 1px solid rgba(0, 229, 255, 0.16);
+    }
+    .bench-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 44px;
+      padding-bottom: 18px;
+    }
+    .bench-kicker {
+      margin: 0 0 6px;
+      color: #00e5ff;
+      font: 700 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.16em;
+    }
+    .bench-head h2 {
+      margin: 0;
+      color: #f2efe6;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+    .bench-sub {
+      margin: 6px 0 0;
+      color: #8b97a8;
+      font-size: 13px;
+    }
+    .bench-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 auto;
+    }
+    .bench-back {
+      color: #8b97a8;
+      font-size: 12px;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(139, 151, 168, 0.4);
+    }
+    .bench-back:hover { color: #00e5ff; border-color: #00e5ff; }
+    #sandbox { height: 0; overflow: hidden; }
+    @media (max-width: 760px) {
+      .bench-head { flex-direction: column; align-items: flex-start; }
+      .scroll-cue { right: 12px; bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <iframe class="stage-frame" src="/twin.html" title="数字孪生主页面"></iframe>
+
+  <a class="scroll-cue" href="#bench"
+     onclick="document.getElementById('bench').scrollIntoView({behavior:'smooth'});this.style.display='none';return false;">
+    ↓ 人工 vs AI · 协议输入
+  </a>
+
+  <main class="shell bench-wrap" id="bench">
+    <header class="bench-head">
+      <div>
+        <p class="bench-kicker">BENCH / PROTOCOL</p>
+        <h2>人工 vs AI · 协议输入</h2>
+        <p class="bench-sub">同一典型日的人工 / AI 对比，以及可确认、可导出的 6 时段调度协议。</p>
+      </div>
+      <div class="bench-meta">
+        <a class="bench-back" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ 回到数字孪生</a>
+        <span class="tag" id="product-tag">MULTI-AGENT · GRID</span>
+        <span class="mode" id="mode-badge" data-mode="unknown">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="mode-text">检测中</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- compare.js 会在这里插入人工 vs AI 对比 -->
+    <div id="sandbox"></div>
+
+    <section class="grid">
+      <article class="panel" aria-labelledby="input-title">
+        <div class="panel-head">
+          <h2 id="input-title"><span class="no">01</span>输入</h2>
+          <button type="button" class="ghost ghost-sm" id="fill-example">填入示例</button>
+        </div>
+
+        <label class="sr-only" for="input">输入内容</label>
+        <textarea id="input" rows="10" maxlength="8000" spellcheck="false"
+          placeholder="粘贴电价、光伏/负荷预测、电池参数和电网约束……"></textarea>
+
+        <div class="panel-foot">
+          <span class="hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> 快速分析</span>
+          <span class="counter" id="counter">0 / 8000</span>
+        </div>
+
+        <button type="button" class="primary" id="analyze">开始分析</button>
+        <p class="error" id="error" role="alert" hidden></p>
+      </article>
+
+      <article class="panel panel-output" id="output-panel" aria-labelledby="output-title">
+        <div class="panel-head">
+          <h2 id="output-title"><span class="no">02</span>AI 输出</h2>
+          <span class="meta" id="elapsed"></span>
+        </div>
+
+        <div class="empty" id="empty">
+          <p class="empty-title" id="empty-title">等待输入</p>
+          <p id="empty-hint">左侧提交后，四方代理的协商结果和最终调度协议会出现在这里。</p>
+        </div>
+
+        <div class="result" id="result" hidden aria-live="polite">
+          <h3 id="result-title"></h3>
+          <p class="summary" id="result-summary"></p>
+          <ul class="items" id="items"></ul>
+        </div>
+
+        <div class="confirm-bar" id="confirm-bar" hidden>
+          <span class="confirm-count" id="confirm-count"></span>
+          <div class="confirm-actions">
+            <button type="button" class="ghost" id="copy">复制结果</button>
+            <button type="button" class="primary" id="confirm">确认并导出</button>
+          </div>
+        </div>
+
+        <div class="confirmed" id="confirmed" hidden>
+          <span class="stamp">已确认</span>
+          <p id="confirmed-text"></p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="/compare.js"></script>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
