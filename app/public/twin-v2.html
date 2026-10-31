@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>电力谈判桌 · 城市基站网络 v2</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/twin-stage.css">
+  <style>
+    body.v2 { height: auto; min-height: 100vh; overflow-y: auto; }
+
+    .v2-network {
+      position: absolute;
+      inset: 0;
+      z-index: 12;
+      pointer-events: none;
+    }
+
+    .v2-network .ts-node { z-index: 32; }
+
+    .ts-node.sub { --c: #c792ea; }
+    .ts-node.dc { --c: #5ad1ff; }
+    .ts-node.charge { --c: #ffd166; }
+
+    .ts-node.is-lit {
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.22);
+    }
+
+    .ts-node.minor {
+      padding: 4px 7px;
+      gap: 6px;
+      border-radius: 8px;
+    }
+    .ts-node.minor .ts-ico {
+      width: 20px;
+      height: 20px;
+    }
+    .ts-node.minor .ts-ico svg {
+      width: 12px;
+      height: 12px;
+    }
+    .ts-node.minor b { font-size: 10px; }
+    .ts-node.minor em { font-size: 9px; }
+
+    .v2-glow {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: 300px;
+      height: 300px;
+      transform: translate(-50%, -50%) scale(0.55);
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.28) 0%,
+        rgba(255, 214, 130, 0.16) 28%,
+        rgba(0, 229, 255, 0.07) 50%,
+        transparent 72%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .v2-glow.is-lit {
+      opacity: 0.55;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .ts-path.v2-blue { --w: 2.4; stroke: #00e5ff; }
+    .ts-path.v2-orange { --w: 2; stroke: #ffb347; }
+    .ts-path.ts-hot { stroke: #fff; stroke-width: 1; }
+    .ts.is-flow .ts-hot { opacity: 0.9; }
+
+    .bench {
+      padding-top: 0;
+      padding-bottom: 70px;
+      background:
+        radial-gradient(80% 40% at 50% 0%, rgba(0, 229, 255, 0.06), transparent 70%),
+        #070a0f;
+      border-top: 1px solid rgba(0, 229, 255, 0.16);
+    }
+    .bench-back {
+      display: inline-block;
+      margin: 26px 0 0;
+      color: #8b97a8;
+      font-size: 12px;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(139, 151, 168, 0.4);
+    }
+    .bench-back:hover { color: #00e5ff; border-color: #00e5ff; }
+    #sandbox { height: 0; overflow: hidden; }
+    .ts-bench-cue {
+      position: absolute;
+      right: 28px;
+      bottom: 24px;
+      z-index: 40;
+      padding: 9px 14px;
+      border: 1px solid rgba(0, 229, 255, 0.55);
+      border-radius: 999px;
+      background: rgba(4, 14, 22, 0.80);
+      color: #00e5ff;
+      font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 22px rgba(0, 229, 255, 0.22);
+    }
+    .ts-bench-cue:hover { background: rgba(0, 229, 255, 0.16); }
+  </style>
+</head>
+<body class="v2">
+  <main class="ts" id="ts">
+    <div class="ts-map"></div>
+    <div class="ts-veil"></div>
+    <div class="ts-grid"></div>
+
+    <header class="ts-top">
+      <div class="ts-brand">
+        <span class="ts-logo">//</span>
+        <div><b>POWER TABLE</b><small>电力谈判桌 · 城市基站网络 v2</small></div>
+      </div>
+      <div class="ts-kpis">
+        <div><span>风电</span><b>120</b><em>kW</em></div>
+        <div><span>光伏</span><b>250</b><em>kWh</em></div>
+        <div><span>储能 SOC</span><b>68</b><em>%</em></div>
+        <div><span>电网峰荷</span><b>119</b><em>kW</em></div>
+      </div>
+      <div class="ts-live"><i></i>LIVE · 城市基站网络</div>
+    </header>
+
+    <aside class="ts-agents" aria-label="代理状态">
+      <article class="ts-agent wind" data-agent="wind"><i></i><div><b>风光代理</b><span>优先消纳</span></div><em>250 kWh</em></article>
+      <article class="ts-agent storage" data-agent="storage"><i></i><div><b>储能代理</b><span>寿命优先</span></div><em>1.0 次/日</em></article>
+      <article class="ts-agent factory" data-agent="factory"><i></i><div><b>工厂代理</b><span>成本优先</span></div><em>-12%</em></article>
+      <article class="ts-agent grid" data-agent="grid"><i></i><div><b>电网代理</b><span>安全优先</span></div><em>≤120 kW</em></article>
+    </aside>
+
+    <div class="v2-network" id="v2-network"></div>
+
+    <section class="ts-log" id="ts-log" aria-live="polite">
+      <header><span>NEGOTIATION LOG</span><b id="ts-round">STANDBY</b></header>
+      <div class="ts-lines" id="ts-lines"><p class="ts-line idle">8 个基站已布点 · 点击开始，电力按协议在网络中流动</p></div>
+    </section>
+
+    <div class="ts-control">
+      <div class="ts-consensus" id="ts-consensus"><b>92%</b><span>协议达成 · 4/4 代理同意</span></div>
+      <button class="ts-start" id="ts-start" type="button"><span>▶</span> 开始演示</button>
+      <p class="ts-hint" id="ts-hint">点击开始：四方代理进入协商，随后电力沿基站网络流动</p>
+    </div>
+
+    <a class="ts-bench-cue" href="#bench"
+       onclick="document.getElementById('bench').scrollIntoView({behavior:'smooth'});return false;">
+      ↓ 人工 vs AI 对比
+    </a>
+  </main>
+
+  <section class="shell bench" id="bench">
+    <a class="bench-back" href="#top"
+       onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ 回到数字孪生</a>
+    <div id="sandbox"></div>
+  </section>
+
+  <script src="/twin-v2.js"></script>
+  <script src="/compare.js"></script>
+</body>
+</html>
