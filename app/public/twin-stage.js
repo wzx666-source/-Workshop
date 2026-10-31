@@ -98,7 +98,7 @@
     lines.replaceChildren();
     const idle = document.createElement('p');
     idle.className = 'ts-line idle';
-    idle.textContent = '等待开始演示…';
+    idle.textContent = '路径已规划 · 点击开始，电力将沿城市道路流动';
     lines.append(idle);
     document.querySelectorAll('.ts-agent').forEach((a) => a.classList.remove('is-active', 'is-agree'));
   }
