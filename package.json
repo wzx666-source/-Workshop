@@ -1,0 +1,9 @@
+{
+  "name": "workshop-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node app/server.js",
+    "demo": "node app/server.js"
+  }
+}
