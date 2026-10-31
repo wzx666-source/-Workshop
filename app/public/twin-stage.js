@@ -7,6 +7,7 @@
   const lines = document.getElementById('ts-lines');
   const round = document.getElementById('ts-round');
   const consensus = document.getElementById('ts-consensus');
+  const hubs = Array.from(document.querySelectorAll('.ts-hub'));
 
   const MESSAGES = [
     { t: 0, agent: '风光代理', cls: 'wind', text: '风电 120 kW、光伏富余 250 kWh，申请优先消纳。' },
@@ -83,6 +84,9 @@
     timers.push(window.setTimeout(() => {
       ts.classList.add('is-flow');
       startBtn.innerHTML = '<span>◉</span> 电力流动中…';
+      hubs.forEach((hub, i) => {
+        timers.push(window.setTimeout(() => hub.classList.add('is-lit'), 200 + i * 500));
+      });
     }, 2200));
 
     timers.push(window.setTimeout(() => {
@@ -111,6 +115,7 @@
     idle.textContent = '路径已规划 · 点击开始，电力将沿城市道路流动';
     lines.append(idle);
     document.querySelectorAll('.ts-agent').forEach((a) => a.classList.remove('is-active', 'is-agree'));
+    hubs.forEach((hub) => hub.classList.remove('is-lit'));
   }
 
   startBtn.addEventListener('click', () => {
