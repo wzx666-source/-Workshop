@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>电力谈判桌 · 数字孪生</title>
+  <link rel="stylesheet" href="/twin-stage.css">
+</head>
+<body>
+  <main class="ts" id="ts">
+    <div class="ts-map"></div>
+    <div class="ts-veil"></div>
+    <div class="ts-grid"></div>
+
+    <header class="ts-top">
+      <div class="ts-brand">
+        <span class="ts-logo">//</span>
+        <div><b>POWER TABLE</b><small>电力谈判桌 · 数字孪生</small></div>
+      </div>
+      <div class="ts-kpis">
+        <div><span>风电</span><b>120</b><em>kW</em></div>
+        <div><span>光伏</span><b>250</b><em>kWh</em></div>
+        <div><span>储能 SOC</span><b>68</b><em>%</em></div>
+        <div><span>电网峰荷</span><b>119</b><em>kW</em></div>
+      </div>
+      <div class="ts-live"><i></i>LIVE · 城市能源网</div>
+    </header>
+
+    <aside class="ts-agents" aria-label="代理状态">
+      <article class="ts-agent wind" data-agent="wind"><i></i><div><b>风光代理</b><span>优先消纳</span></div><em>250 kWh</em></article>
+      <article class="ts-agent storage" data-agent="storage"><i></i><div><b>储能代理</b><span>寿命优先</span></div><em>1.0 次/日</em></article>
+      <article class="ts-agent factory" data-agent="factory"><i></i><div><b>工厂代理</b><span>成本优先</span></div><em>-12%</em></article>
+      <article class="ts-agent grid" data-agent="grid"><i></i><div><b>电网代理</b><span>安全优先</span></div><em>≤120 kW</em></article>
+    </aside>
+
+    <div class="ts-node wind" style="--x:22%;--y:28%">
+      <span class="ts-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.4"/><path d="M12 10.6V3M13.4 12.8l7 4M10.6 12.8l-7 4"/></svg></span>
+      <div><b>风力发电站</b><em>120 kW</em></div>
+    </div>
+    <div class="ts-node pv" style="--x:48%;--y:76%">
+      <span class="ts-ico"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="1"/><path d="M4 12h16M9 7v10M15 7v10"/></svg></span>
+      <div><b>光伏电站</b><em>250 kWh 富余</em></div>
+    </div>
+    <div class="ts-node storage" style="--x:68%;--y:62%">
+      <span class="ts-ico"><svg viewBox="0 0 24 24"><rect x="5" y="7" width="12" height="10" rx="2"/><path d="M17 10h2v4h-2"/></svg></span>
+      <div><b>储能站</b><em>SOC 68%</em></div>
+    </div>
+    <div class="ts-node factory" style="--x:78%;--y:40%">
+      <span class="ts-ico"><svg viewBox="0 0 24 24"><path d="M4 20V10l5 3V10l5 3V10l6 3v7z"/></svg></span>
+      <div><b>工厂</b><em>120 kW</em></div>
+    </div>
+    <div class="ts-node grid" style="--x:60%;--y:22%">
+      <span class="ts-ico"><svg viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M7 7l-2 7M17 7l2 7"/></svg></span>
+      <div><b>电网</b><em>峰荷 ≤120 kW</em></div>
+    </div>
+
+    <svg class="ts-flows" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <filter id="tsGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path class="ts-path wind" d="M352,252 C520,330 760,520 1088,558"/>
+      <path class="ts-path pv" d="M768,684 C860,650 980,600 1088,558"/>
+      <path class="ts-path wind2" d="M352,252 C560,180 760,180 960,198"/>
+      <path class="ts-path factory" d="M1088,558 C1140,500 1200,430 1248,360"/>
+      <path class="ts-path grid" d="M1088,558 C1040,460 1000,300 960,198"/>
+      <circle class="ts-particle wind" r="4"><animateMotion dur="2.8s" repeatCount="indefinite" path="M352,252 C520,330 760,520 1088,558"/></circle>
+      <circle class="ts-particle pv" r="4"><animateMotion dur="3.1s" repeatCount="indefinite" path="M768,684 C860,650 980,600 1088,558"/></circle>
+      <circle class="ts-particle wind2" r="4"><animateMotion dur="3.4s" repeatCount="indefinite" path="M352,252 C560,180 760,180 960,198"/></circle>
+      <circle class="ts-particle factory" r="4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M1088,558 C1140,500 1200,430 1248,360"/></circle>
+      <circle class="ts-particle grid" r="4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1088,558 C1040,460 1000,300 960,198"/></circle>
+    </svg>
+
+    <section class="ts-log" id="ts-log" aria-live="polite">
+      <header><span>NEGOTIATION LOG</span><b id="ts-round">STANDBY</b></header>
+      <div class="ts-lines" id="ts-lines"><p class="ts-line idle">等待开始演示…</p></div>
+    </section>
+
+    <div class="ts-control">
+      <div class="ts-consensus" id="ts-consensus"><b>92%</b><span>协议达成 · 4/4 代理同意</span></div>
+      <button class="ts-start" id="ts-start" type="button"><span>▶</span> 开始演示</button>
+      <p class="ts-hint" id="ts-hint">点击开始：四方代理进入协商，随后电力按协议在城市中流动</p>
+    </div>
+  </main>
+  <script src="/twin-stage.js"></script>
+</body>
+</html>

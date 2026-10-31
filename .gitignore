@@ -10,3 +10,7 @@ results/
 app/test/shots/
 deck/_render/
 *.log
+/1.jpg
+/2.png
+
+微信图片_*.png

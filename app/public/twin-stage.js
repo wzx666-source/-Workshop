@@ -1,0 +1,114 @@
+(function () {
+  'use strict';
+
+  const ts = document.getElementById('ts');
+  const startBtn = document.getElementById('ts-start');
+  const hint = document.getElementById('ts-hint');
+  const lines = document.getElementById('ts-lines');
+  const round = document.getElementById('ts-round');
+  const consensus = document.getElementById('ts-consensus');
+
+  const MESSAGES = [
+    { t: 0, agent: '风光代理', cls: 'wind', text: '风电 120 kW、光伏富余 250 kWh，申请优先消纳。' },
+    { t: 700, agent: '储能代理', cls: 'storage', text: '可以充，但 SOC 20–90%，一天最多一次循环。' },
+    { t: 1400, agent: '工厂代理', cls: 'factory', text: '我要低价电，愿意把 10% 负荷移到午间。' },
+    { t: 2100, agent: '电网代理', cls: 'grid', text: '晚高峰峰荷不能超过 120 kW。' },
+    { t: 2800, agent: '调度员', cls: 'mediator', text: '方案：风光优先充储，18–22 放电，工厂移峰。' },
+    { t: 3500, agent: '四方', cls: 'all', text: '4/4 同意，共识度 92%。' }
+  ];
+
+  const AGENT_SELECTOR = {
+    wind: '.ts-agent.wind',
+    storage: '.ts-agent.storage',
+    factory: '.ts-agent.factory',
+    grid: '.ts-agent.grid'
+  };
+
+  let timers = [];
+
+  function addLine(m) {
+    const p = document.createElement('p');
+    p.className = 'ts-line ' + m.cls;
+    const b = document.createElement('b');
+    b.textContent = m.agent;
+    const span = document.createElement('span');
+    span.textContent = m.text;
+    p.append(b, span);
+    lines.append(p);
+    lines.scrollTop = lines.scrollHeight;
+  }
+
+  function activate(cls) {
+    document.querySelectorAll('.ts-agent').forEach((a) => a.classList.remove('is-active'));
+    if (cls === 'all') {
+      document.querySelectorAll('.ts-agent').forEach((a) => a.classList.add('is-agree'));
+      return;
+    }
+    if (cls === 'mediator') {
+      document.querySelectorAll('.ts-agent').forEach((a) => a.classList.add('is-active'));
+      return;
+    }
+    const el = document.querySelector(AGENT_SELECTOR[cls]);
+    if (el) el.classList.add('is-active');
+  }
+
+  function startDemo() {
+    if (ts.classList.contains('is-running')) return;
+    ts.classList.add('is-running');
+    startBtn.disabled = true;
+    startBtn.innerHTML = '<span>◌</span> 协商中…';
+    hint.classList.add('is-hidden');
+    lines.replaceChildren();
+    round.textContent = 'ROUND 1';
+
+    MESSAGES.forEach((m, i) => {
+      timers.push(window.setTimeout(() => {
+        addLine(m);
+        activate(m.cls);
+        if (i === 2) round.textContent = 'ROUND 2';
+        if (i === 4) round.textContent = 'ROUND 3';
+      }, m.t));
+    });
+
+    timers.push(window.setTimeout(() => {
+      ts.classList.add('is-flow');
+      startBtn.innerHTML = '<span>◉</span> 电力流动中…';
+    }, 2200));
+
+    timers.push(window.setTimeout(() => {
+      ts.classList.add('is-done');
+      round.textContent = 'AGREED';
+      startBtn.innerHTML = '<span>✓</span> 协议达成 · 92%';
+      startBtn.classList.add('is-done');
+      consensus.classList.add('is-in');
+      activate('all');
+    }, 4200));
+  }
+
+  function reset() {
+    timers.forEach((t) => window.clearTimeout(t));
+    timers = [];
+    ts.classList.remove('is-running', 'is-flow', 'is-done');
+    startBtn.disabled = false;
+    startBtn.classList.remove('is-done');
+    startBtn.innerHTML = '<span>▶</span> 开始演示';
+    hint.classList.remove('is-hidden');
+    consensus.classList.remove('is-in');
+    round.textContent = 'STANDBY';
+    lines.replaceChildren();
+    const idle = document.createElement('p');
+    idle.className = 'ts-line idle';
+    idle.textContent = '等待开始演示…';
+    lines.append(idle);
+    document.querySelectorAll('.ts-agent').forEach((a) => a.classList.remove('is-active', 'is-agree'));
+  }
+
+  startBtn.addEventListener('click', () => {
+    if (ts.classList.contains('is-done')) reset();
+    else startDemo();
+  });
+
+  if (location.search.includes('play=1')) {
+    window.setTimeout(startDemo, 600);
+  }
+})();
