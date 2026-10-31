@@ -58,7 +58,7 @@
   </style>
 </head>
 <body>
-  <iframe class="stage-frame" src="/twin.html" title="数字孪生主页面"></iframe>
+  <iframe class="stage-frame" src="/twin.html?embed=1" title="数字孪生主页面"></iframe>
 
   <a class="scroll-cue" href="#bench"
      onclick="document.getElementById('bench').scrollIntoView({behavior:'smooth'});this.style.display='none';return false;">
@@ -75,5 +75,10 @@
   </main>
 
   <script src="/compare.js"></script>
+  <script>
+    if (location.search.includes('play=1')) {
+      document.querySelector('.stage-frame').src = '/twin.html?embed=1&play=1';
+    }
+  </script>
 </body>
 </html>

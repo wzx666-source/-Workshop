@@ -4,9 +4,55 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>电力谈判桌 · 数字孪生</title>
+  <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/twin-stage.css">
+  <style>
+    body:not(.embed) { height: auto; min-height: 100vh; overflow-y: auto; }
+    body.embed { height: 100%; overflow: hidden; }
+    body.embed #bench,
+    body.embed .ts-bench-cue { display: none; }
+    .bench {
+      padding-top: 0;
+      padding-bottom: 70px;
+      background:
+        radial-gradient(80% 40% at 50% 0%, rgba(0, 229, 255, 0.06), transparent 70%),
+        #070a0f;
+      border-top: 1px solid rgba(0, 229, 255, 0.16);
+    }
+    .bench-back {
+      display: inline-block;
+      margin: 26px 0 0;
+      color: #8b97a8;
+      font-size: 12px;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(139, 151, 168, 0.4);
+    }
+    .bench-back:hover { color: #00e5ff; border-color: #00e5ff; }
+    #sandbox { height: 0; overflow: hidden; }
+    .ts-bench-cue {
+      position: absolute;
+      right: 28px;
+      bottom: 24px;
+      z-index: 40;
+      padding: 9px 14px;
+      border: 1px solid rgba(0, 229, 255, 0.55);
+      border-radius: 999px;
+      background: rgba(4, 14, 22, 0.80);
+      color: #00e5ff;
+      font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 22px rgba(0, 229, 255, 0.22);
+    }
+    .ts-bench-cue:hover { background: rgba(0, 229, 255, 0.16); }
+  </style>
 </head>
 <body>
+  <script>
+    if (new URLSearchParams(location.search).get('embed') === '1') {
+      document.body.classList.add('embed');
+    }
+  </script>
   <main class="ts" id="ts">
     <div class="ts-map"></div>
     <div class="ts-veil"></div>
@@ -97,7 +143,21 @@
       <button class="ts-start" id="ts-start" type="button"><span>▶</span> 开始演示</button>
       <p class="ts-hint" id="ts-hint">点击开始：四方代理进入协商，随后电力沿城市道路流动</p>
     </div>
+
+    <a class="ts-bench-cue" href="#bench"
+       onclick="document.getElementById('bench').scrollIntoView({behavior:'smooth'});return false;">
+      ↓ 人工 vs AI 对比
+    </a>
   </main>
+
+  <section class="shell bench" id="bench">
+    <a class="bench-back" href="#top"
+       onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ 回到数字孪生</a>
+    <!-- compare.js 在这里插入人工 vs AI 对比 -->
+    <div id="sandbox"></div>
+  </section>
+
   <script src="/twin-stage.js"></script>
+  <script src="/compare.js"></script>
 </body>
 </html>

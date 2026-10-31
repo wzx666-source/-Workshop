@@ -14,7 +14,7 @@
 
   function mount() {
     if (document.getElementById('compare')) return;
-    const shell = document.querySelector('main.shell');
+    const shell = document.querySelector('main.shell') || document.getElementById('bench');
     if (!shell) return;
 
     const link = document.createElement('link');
