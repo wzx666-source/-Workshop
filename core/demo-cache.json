@@ -1,51 +1,93 @@
 {
   "cases": [
     {
-      "match": "示例",
+      "match": "电力谈判桌",
       "result": {
-        "title": "骨架跑通示例",
-        "summary": "这是一条缓存兜底结果，用来验证「输入 → AI → 输出 → 人工确认」整条链路。选题确定后替换为真实结果。",
+        "title": "电力谈判桌 · 晴天调度协议",
+        "summary": "四方代理经过 3 轮协商达成协议：光伏零弃光、储能 1.0 次循环、工厂电费 -12%、电网峰荷 -15%，共识度 92%。",
         "items": [
           {
-            "label": "确认输入被完整接收",
-            "detail": "左侧输入框的内容已原样传到服务端，并触发了缓存匹配。",
-            "suggestion": "保留这条，继续验证勾选、编辑和导出。"
+            "label": "00:00–08:00 · 充电/待机",
+            "detail": "储能代理只接受 1 次循环，因此仅在 00:00–01:00 以 100 kW 充电 1 小时，SOC 升到 40%；其余时间待机，等午间光伏富余。",
+            "suggestion": "00:00–01:00 充电 100 kW；01:00–08:00 待机，SOC 保持约 40%。"
           },
           {
-            "label": "确认 AI 输出来源",
-            "detail": "当前 DEMO_MODE=1，没有调用真实接口，右上角会显示 DEMO。",
-            "suggestion": "演示前把 .env 的 DEMO_MODE 改为 0 并填好 API key，即可切换到真实模型。"
+            "label": "08:00–11:00 · 待机",
+            "detail": "电网代理要求晚高峰不超 120 kW；此时放电会削弱 18–22 点的调节能力，四方同意保留容量。",
+            "suggestion": "待机 0 kW，SOC 保持约 40%。"
           },
           {
-            "label": "确认人工确认环节",
-            "detail": "每条建议都可以勾选或直接改写，只有勾选的内容会进入最终导出。",
-            "suggestion": "取消一条、改一条，再点「确认并导出」，检查导出文件是否只包含勾选内容。"
+            "label": "11:00–14:00 · 光伏充电",
+            "detail": "光伏代理主张零弃光；工厂代理把 10% 负荷移到午间，储能代理接受用富余光伏充电，三方共赢。",
+            "suggestion": "按富余功率充电 70–90 kW，SOC 升到 90%，消纳光伏约 250 kWh。"
+          },
+          {
+            "label": "14:00–18:00 · 待机",
+            "detail": "电池已到 90% 上限；四方同意把电量留给 18–22 点最高价时段。",
+            "suggestion": "待机 0 kW，SOC 保持 90%。"
+          },
+          {
+            "label": "18:00–22:00 · 放电",
+            "detail": "工厂与储能要求高价放电；电网代理设定峰荷上限 120 kW，放电功率限制在 80–100 kW，最终峰荷下降 15%。",
+            "suggestion": "放电 80–100 kW，SOC 从 90% 降到 20% 后停止。"
+          },
+          {
+            "label": "22:00–24:00 · 待机",
+            "detail": "SOC 已到 20% 下限；储能代理拒绝继续放电，四方同意为次日低谷充电留空间。",
+            "suggestion": "待机 0 kW，SOC 保持 20%。"
           }
         ],
-        "next_action": "逐条确认或编辑后导出"
+        "next_action": "调度员人工确认协议后导出，下发 EMS 执行。",
+        "negotiation": {
+          "agents": [
+            { "id": "pv", "name": "光伏代理", "objective": "多消纳、少弃光", "redline": "弃光尽量为 0", "position": "午间 250 kWh 全部消纳", "gain": "弃光 250→0 kWh" },
+            { "id": "storage", "name": "储能代理", "objective": "收益与寿命平衡", "redline": "SOC 20–90%，≤1 次循环/日", "position": "午间充、晚高峰放", "gain": "日收益 +87.5 元" },
+            { "id": "factory", "name": "工厂代理", "objective": "用电成本最低", "redline": "产量不下降", "position": "要求午间低价电", "gain": "电费 -12%" },
+            { "id": "grid", "name": "电网代理", "objective": "安全稳定", "redline": "峰荷 ≤120 kW", "position": "限制晚高峰放电", "gain": "峰荷 -15%" }
+          ],
+          "rounds": [
+            { "round": 1, "title": "亮底牌", "messages": [
+              { "agent": "pv", "text": "午间富余 250 kWh，希望全部消纳，不要弃光。" },
+              { "agent": "storage", "text": "可以充，但一天只能一次循环，18–22 点必须放。" },
+              { "agent": "factory", "text": "午间电价 0.65 还是贵，能不能再低？" },
+              { "agent": "grid", "text": "晚高峰负荷不能超过 120 kW。" }
+            ] },
+            { "round": 2, "title": "互相让步", "messages": [
+              { "agent": "storage", "text": "接受午间充 250 kWh，18–22 点只放 350 kWh。" },
+              { "agent": "factory", "text": "工厂愿意把 10% 负荷移到午间。" },
+              { "agent": "grid", "text": "峰荷上限 120 kW；工厂移峰后可放行。" },
+              { "agent": "pv", "text": "同意优先给储能充电，余量上网。" }
+            ] },
+            { "round": 3, "title": "达成协议", "messages": [
+              { "agent": "mediator", "text": "协议：午间光伏充 250 kWh；18–22 放电 350 kWh；工厂移峰 10%；峰荷 ≤120 kW。" },
+              { "agent": "all", "text": "4/4 同意，共识度 92%。" }
+            ] }
+          ],
+          "agreement": {
+            "consensus": 92,
+            "metrics": [
+              { "label": "光伏消纳", "value": "+250 kWh" },
+              { "label": "储能循环", "value": "1.0 次/日" },
+              { "label": "工厂电费", "value": "-12%" },
+              { "label": "电网峰荷", "value": "-15%" },
+              { "label": "共识度", "value": "92%" }
+            ]
+          }
+        }
       }
     }
   ],
   "default": {
-    "title": "分析完成（缓存占位）",
-    "summary": "服务端已收到输入，但当前是 DEMO_MODE，且输入没有命中示例缓存。请点击「填入示例」体验完整链路。",
+    "title": "电力谈判桌 · 等待场景",
+    "summary": "请粘贴包含光伏、储能、工厂、电网约束的场景，四个代理将进行 3 轮协商。",
     "items": [
-      {
-        "label": "这是一条占位输出",
-        "detail": "DEMO_MODE 下不会请求真实模型，避免演示现场依赖网络。",
-        "suggestion": "选题确定后，在 core/demo-cache.json 里预置真实输入的缓存结果。"
-      },
-      {
-        "label": "真实接口已接好",
-        "detail": "core/ai.js 支持 OpenAI 兼容协议和 Anthropic 协议，由 .env 切换。",
-        "suggestion": "填好 AI_API_KEY 与 AI_MODEL，把 DEMO_MODE 设为 0。"
-      },
-      {
-        "label": "人工确认已实现",
-        "detail": "输出区支持逐条勾选、编辑、导出 Markdown。",
-        "suggestion": "演示时先取消一条、再改一条，突出「AI 给建议，人做决定」。"
-      }
+      { "label": "光伏代理", "detail": "需要光伏出力和富余量。", "suggestion": "补充：光伏预测功率、午间富余电量。" },
+      { "label": "储能代理", "detail": "需要电池容量、SOC 范围和循环限制。", "suggestion": "补充：容量 500 kWh，SOC 20%–90%，≤1 次循环/日。" },
+      { "label": "工厂代理", "detail": "需要负荷曲线和可移峰比例。", "suggestion": "补充：负荷 80–120 kW，可移峰 10%。" },
+      { "label": "电网代理", "detail": "需要峰荷上限。", "suggestion": "补充：峰荷 ≤120 kW。" },
+      { "label": "调度员", "detail": "四方信息齐全后开始 3 轮协商。", "suggestion": "点击「填入示例」查看完整演示。" },
+      { "label": "最终协议", "detail": "协商完成后输出 6 时段调度计划。", "suggestion": "人工确认后导出。" }
     ],
-    "next_action": "填入示例或等待真实模型接入"
+    "next_action": "补充场景信息或点击「填入示例」。"
   }
 }

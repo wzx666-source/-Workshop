@@ -137,7 +137,7 @@ try {
   await loaded;
   await waitFor('document.readyState === "complete"');
 
-  check('页面加载', await evaluate('document.title') === 'WORKSHOP / 产品原型');
+  check('页面加载', await evaluate('document.title') === '电力谈判桌 / Multi-Agent Energy Negotiation');
   check('DEMO 徽标', await evaluate('document.getElementById("mode-badge").dataset.mode') === 'demo');
 
   await evaluate('document.getElementById("fill-example").click()');
@@ -146,7 +146,7 @@ try {
   await evaluate('document.getElementById("analyze").click()');
   await waitFor('!document.getElementById("result").hidden');
   const itemCount = await evaluate('document.querySelectorAll("#items .item").length');
-  check('AI 输出渲染', itemCount === 3, `${itemCount} 条建议`);
+  check('AI 输出渲染', itemCount === 6, `${itemCount} 条建议`);
   check('步骤到人工确认', await evaluate('document.querySelector(".step[data-step=\\"3\\"]").classList.contains("is-active")'));
 
   await evaluate(`(() => {
@@ -159,11 +159,11 @@ try {
   })()`);
 
   const countText = await evaluate('document.getElementById("confirm-count").textContent');
-  check('取消勾选计入确认数量', countText.startsWith('2 / 3'), countText);
+  check('取消勾选计入确认数量', countText.startsWith('5 / 6'), countText);
 
   await evaluate('document.getElementById("confirm").click()');
   await waitFor('!document.getElementById("confirmed").hidden');
-  check('出现已确认标记', await evaluate('document.getElementById("confirmed-text").textContent.includes("2 条")'));
+  check('出现已确认标记', await evaluate('document.getElementById("confirmed-text").textContent.includes("5 条")'));
 
   let file = null;
   for (let i = 0; i < 40 && !file; i += 1) {

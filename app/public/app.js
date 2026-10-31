@@ -34,7 +34,7 @@ const state = {
   loading: false,
 };
 
-const EXAMPLE = '这是一个示例输入：请把这段内容拆成可确认的建议，用来验证「输入 → AI → 输出 → 人工确认」主路径。';
+const EXAMPLE = '电力谈判桌场景：光伏 150 kW（午间富余 250 kWh）、储能 500 kWh（SOC 20%–90%，≤1 次循环/日）、工厂负荷 80–120 kW、电网峰荷上限 120 kW。分时电价：00–08 0.35；08–11 1.05；11–14 0.65；14–18 1.05；18–22 1.20；22–24 0.45。请让四个代理协商今天 6 个时段的调度协议。';
 
 function setBadge(mode, text) {
   els.badge.dataset.mode = mode;

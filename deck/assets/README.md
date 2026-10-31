@@ -1,13 +1,14 @@
-# deck/assets — 待 A 提供
+# deck/assets
 
-| 文件名 | 内容 | 用在哪 |
+最终使用：
+
+| 文件 | 内容 | 用途 |
 |---|---|---|
-| `ui_main.png` | 主界面：输入区 + 主按钮 + 人工确认入口 | 第 4 页右侧占位框；必要时第 3 页 OUTPUT |
-| `ai_output.png` | AI 输出结果：生成的答案 / 建议 / 任务 | 第 4 页右侧占位框 |
-| `validation.png` | 可选：3 组验证的对照图 / 录屏截帧 | 第 4 页右侧占位框 |
+| `powertable_hero.png` | 四代理谈判桌 + 数字孪生 + 92% toast（1600×900） | 第 3 页主视觉（已使用） |
+| `ai_output.png` | 6 条时段协议 + 人工确认 / 导出（1440×1243 @2x） | 备用 |
 
-要求：
+历史截图（勿用于终稿）：
 
-- 宽度 ≥ 1600 px，16:9 或 4:3，PNG。
-- 不要包含本机隐私信息、终端路径、API Key。
-- 截图里如果出现真实测试数字，必须在 `DECK_STATUS.md` 同步说明来源。
+- `ui_main.png`：H1/H2 修复前，含第四卡错位与「—」占位符。
+- `powertable_main2.png`：第 3 页旧主图，已被 `powertable_hero.png` 替换。
+- `powertable_fixed.png`：1600×1600 顶视图，无 92% toast。

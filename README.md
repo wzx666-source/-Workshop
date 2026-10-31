@@ -1,7 +1,7 @@
-# Workshop — AI+ 黑客松骨架
+# Workshop — 电力谈判桌 PowerTable
 
-2 小时冲刺用的最小可演示骨架：**输入 → AI → 输出 → 人工确认**。
-当前选题未定；产品壳、deck 骨架和协作流程已就绪。
+2 小时冲刺的 AI+ 黑客松原型：**四方能源 AI 自主协商 → 可执行调度协议 → 人工确认**。
+题目：智能能源场景 / 多智能体协作 + 博弈决策。
 
 ## 快速开始
 
@@ -15,17 +15,17 @@ node app/test/e2e.mjs  # 无头 Edge 端到端自检
 
 | 路径 | 作用 |
 |---|---|
+| `TOPIC.md` | 四方代理、3 轮协议、demo 输入、证据口径 |
+| `app/public/powertable.js` / `.css` | 谈判桌可视化：代理卡片、3 轮消息、共识度 |
+| `app/public/digitaltwin.js` / `.css` | 数字孪生：中心能源总线 + 四节点 + 电力流线 |
+| `app/public/compare.js` / `.css` | 人工调度 vs AI 调度对比 |
+| `app/public/sandbox.js` / `.css` | 最终协议 24h 调度沙盘 |
 | `app/server.js` | HTTP 入口，`POST /api/analyze` |
-| `app/public/` | 单页 UI（输入 / AI 输出 / 人工确认 / 导出） |
-| `core/ai.js` | DEMO / live / fallback |
-| `core/prompts.js` | 系统提示词（选题后改这里） |
-| `core/demo-cache.json` | 演示缓存（选题后改这里） |
+| `app/public/` | 单页 UI（输入 / 谈判 / 人工确认 / 导出） |
+| `core/prompts.js` | 多代理谈判提示词 |
+| `core/demo-cache.json` | 谈判结果缓存（演示兜底） |
 | `deck/` | 5 页路演 deck 工作副本 + 渲染脚本 |
-| `PLAN.md` | 题目、demo 剧本、75 分钟时间盒 |
-| `BRIEF.md` | 给 deck 终端的事实来源 |
-| `PROMPTS.md` | 三个终端的启动话术 |
-| `APP_STATUS.md` / `DECK_STATUS.md` | 两个工作终端的实时状态 |
-| `CLAUDE.md` | 给 Claude Code 的项目规则 |
+| `PLAN.md` / `BRIEF.md` / `PROMPTS.md` | 计划、deck 事实、终端话术 |
 
 ## 输出契约
 
@@ -33,14 +33,15 @@ node app/test/e2e.mjs  # 无头 Edge 端到端自检
 {
   "title": "string",
   "summary": "string",
-  "items": [
-    { "label": "string", "detail": "string", "suggestion": "string" }
-  ],
-  "next_action": "string"
+  "items": [{ "label": "string", "detail": "string", "suggestion": "string" }],
+  "next_action": "string",
+  "agents": [],
+  "rounds": [],
+  "agreement": {}
 }
 ```
 
-`items` 1–8 条；前端逐条勾选、改写、导出 Markdown。
+`items` 固定 6 条时段协议；前端逐条勾选、改写、导出 Markdown。
 
 ## 环境
 
@@ -52,5 +53,5 @@ node app/test/e2e.mjs  # 无头 Edge 端到端自检
 ## 当前状态
 
 - 产品壳：E2E 10/10，live 通路已验证。
-- deck：5 页骨架 + 占位，已清理模板假数据。
-- 选题：待定。
+- 可视化：谈判桌 + 数字孪生 + 人工/AI 对比 + 最终协议沙盘。
+- 选题：电力谈判桌 PowerTable。

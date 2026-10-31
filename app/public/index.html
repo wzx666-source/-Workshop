@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WORKSHOP / 产品原型</title>
+  <title>电力谈判桌 / Multi-Agent Energy Negotiation</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314140f'/%3E%3Cpath d='M8 10h4l4 12h-4zm8 0h4l-4 12h-4z' fill='%23f2efe6'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -11,10 +11,10 @@
   <header class="topbar">
     <a class="brand" href="/">
       <span class="brand-mark" aria-hidden="true">//</span>
-      <span class="brand-name">WORKSHOP BENCH</span>
+      <span class="brand-name">POWER TABLE</span>
     </a>
     <div class="topbar-meta">
-      <span class="tag" id="product-tag">PRODUCT TBD</span>
+      <span class="tag" id="product-tag">MULTI-AGENT · GRID</span>
       <span class="mode" id="mode-badge" data-mode="unknown">
         <span class="dot" aria-hidden="true"></span>
         <span id="mode-text">检测中</span>
@@ -24,14 +24,14 @@
 
   <main class="shell">
     <section class="masthead">
-      <p class="eyebrow">INPUT → AI → OUTPUT → HUMAN CONFIRM</p>
-      <h1>产品选题待定<span class="cursor" aria-hidden="true">_</span></h1>
-      <p class="lede">骨架已就绪。选题确定后，替换 <code>core/prompts.js</code> 与 <code>core/demo-cache.json</code> 即可接入正式逻辑。</p>
+      <p class="eyebrow">PV × STORAGE × FACTORY × GRID</p>
+      <h1>电力谈判桌<span class="cursor" aria-hidden="true">_</span></h1>
+      <p class="lede">光伏要消纳、储能保寿命、工厂降成本、电网保安全。四个 AI 代理自主协商，人只做最终确认。</p>
     </section>
 
     <ol class="stepper" aria-label="流程">
       <li class="step is-active" data-step="1"><span class="step-no">01</span><span>输入</span></li>
-      <li class="step" data-step="2"><span class="step-no">02</span><span>AI 分析</span></li>
+      <li class="step" data-step="2"><span class="step-no">02</span><span>四方谈判</span></li>
       <li class="step" data-step="3"><span class="step-no">03</span><span>人工确认</span></li>
     </ol>
 
@@ -44,7 +44,7 @@
 
         <label class="sr-only" for="input">输入内容</label>
         <textarea id="input" rows="10" maxlength="8000" spellcheck="false"
-          placeholder="把要处理的文字粘贴到这里……"></textarea>
+          placeholder="粘贴电价、光伏/负荷预测、电池参数和电网约束……"></textarea>
 
         <div class="panel-foot">
           <span class="hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> 快速分析</span>
@@ -63,7 +63,7 @@
 
         <div class="empty" id="empty">
           <p class="empty-title" id="empty-title">等待输入</p>
-          <p id="empty-hint">左侧提交后，AI 的建议会出现在这里。每条都可以勾选或直接改写。</p>
+          <p id="empty-hint">左侧提交后，四方代理的协商结果和最终调度协议会出现在这里。</p>
         </div>
 
         <div class="result" id="result" hidden aria-live="polite">
@@ -95,5 +95,9 @@
   </footer>
 
   <script src="/app.js" type="module"></script>
+  <script src="/sandbox.js"></script>
+  <script src="/powertable.js"></script>
+  <script src="/digitaltwin.js"></script>
+  <script src="/compare.js"></script>
 </body>
 </html>
