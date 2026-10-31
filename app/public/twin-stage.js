@@ -7,7 +7,6 @@
   const lines = document.getElementById('ts-lines');
   const round = document.getElementById('ts-round');
   const consensus = document.getElementById('ts-consensus');
-  const hubs = Array.from(document.querySelectorAll('.ts-hub'));
 
   const MESSAGES = [
     { t: 0, agent: '风光代理', cls: 'wind', text: '风电 120 kW、光伏富余 250 kWh，申请优先消纳。' },
@@ -35,6 +34,35 @@
     const glow = p.cloneNode(true);
     glow.classList.add('ts-glow');
     p.parentNode.insertBefore(glow, p);
+  });
+
+  // 电力中枢直接沿线取点生成，保证每条线都有进有出
+  const corePaths = Array.from(document.querySelectorAll('.ts-path'))
+    .filter((p) => !p.classList.contains('ts-mid') && !p.classList.contains('ts-glow'));
+  const hubPlan = [
+    { cls: 'wind', points: [0.30, 0.68] },
+    { cls: 'pv', points: [0.50] },
+    { cls: 'wind2', points: [0.50] },
+    { cls: 'factory', points: [0.50] },
+    { cls: 'grid', points: [0.50] },
+    { cls: 'pv2', points: [0.55] },
+    { cls: 'factory2', points: [0.50] }
+  ];
+  const hubs = [];
+  hubPlan.forEach(({ cls, points }) => {
+    const path = corePaths.find((p) => p.classList.contains(cls));
+    if (!path) return;
+    const total = path.getTotalLength();
+    points.forEach((t) => {
+      const pt = path.getPointAtLength(total * t);
+      const hub = document.createElement('div');
+      hub.className = 'ts-hub';
+      hub.style.setProperty('--x', (pt.x / 1600 * 100).toFixed(3) + '%');
+      hub.style.setProperty('--y', (pt.y / 900 * 100).toFixed(3) + '%');
+      hub.innerHTML = '<i></i>';
+      ts.appendChild(hub);
+      hubs.push(hub);
+    });
   });
 
   function addLine(m) {

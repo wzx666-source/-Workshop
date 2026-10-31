@@ -312,12 +312,12 @@ body {
 
 .ts-hub i {
   display: block;
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid rgba(120, 220, 255, 0.55);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(120, 220, 255, 0.7);
   border-radius: 50%;
-  background: rgba(4, 12, 20, 0.75);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+  background: rgba(4, 12, 20, 0.80);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.45);
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -326,16 +326,17 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 280px;
-  height: 280px;
+  width: 340px;
+  height: 340px;
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0.55);
   background: radial-gradient(circle,
-    rgba(255, 246, 220, 0.45) 0%,
-    rgba(255, 190, 90, 0.28) 24%,
-    rgba(0, 229, 255, 0.16) 46%,
-    transparent 70%);
+    rgba(255, 248, 225, 0.62) 0%,
+    rgba(255, 190, 90, 0.40) 24%,
+    rgba(0, 229, 255, 0.24) 46%,
+    transparent 72%);
   opacity: 0;
+  mix-blend-mode: screen;
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -395,8 +396,8 @@ body {
 
 .ts.is-flow .ts-route { opacity: 0.28; }
 
-.ts-path.wind, .ts-path.wind2, .ts-path.pv { --w: 3; stroke: #00e5ff; }
-.ts-path.factory, .ts-path.grid { --w: 2; stroke: #ffb347; }
+.ts-path.wind, .ts-path.wind2, .ts-path.pv, .ts-path.pv2 { --w: 3; stroke: #00e5ff; }
+.ts-path.factory, .ts-path.grid, .ts-path.factory2 { --w: 2; stroke: #ffb347; }
 
 .ts-particle { fill: #fff; opacity: 0; transition: opacity 0.5s ease; }
 .ts-particle.wind, .ts-particle.wind2 { fill: #e9fdff; }

@@ -54,14 +54,6 @@
       <div><b>电网</b><em>峰荷 ≤120 kW</em></div>
     </div>
 
-    <!-- 城市电力中枢：电力到达后点亮周边 -->
-    <div class="ts-hub" style="--x:38%;--y:38%"><i></i></div>
-    <div class="ts-hub" style="--x:55%;--y:51%"><i></i></div>
-    <div class="ts-hub" style="--x:60%;--y:67%"><i></i></div>
-    <div class="ts-hub" style="--x:72%;--y:50%"><i></i></div>
-    <div class="ts-hub" style="--x:63%;--y:37%"><i></i></div>
-    <div class="ts-hub" style="--x:46%;--y:24%"><i></i></div>
-
     <svg class="ts-flows" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
       <defs>
         <filter id="tsGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -75,6 +67,8 @@
       <path class="ts-route" d="M352,252 C560,180 760,180 960,198"/>
       <path class="ts-route" d="M1088,558 C1140,500 1200,430 1248,360"/>
       <path class="ts-route" d="M1088,558 C1040,460 1000,300 960,198"/>
+      <path class="ts-route" d="M768,684 C900,700 1100,600 1248,360"/>
+      <path class="ts-route" d="M1248,360 C1180,300 1080,240 960,198"/>
 
       <!-- 电力按协议流动 -->
       <path class="ts-path wind" d="M352,252 C480,300 560,470 760,520 S980,580 1088,558"/>
@@ -82,11 +76,15 @@
       <path class="ts-path wind2" d="M352,252 C560,180 760,180 960,198"/>
       <path class="ts-path factory" d="M1088,558 C1140,500 1200,430 1248,360"/>
       <path class="ts-path grid" d="M1088,558 C1040,460 1000,300 960,198"/>
+      <path class="ts-path pv2" d="M768,684 C900,700 1100,600 1248,360"/>
+      <path class="ts-path factory2" d="M1248,360 C1180,300 1080,240 960,198"/>
       <circle class="ts-particle wind" r="2.2"><animateMotion dur="2.8s" repeatCount="indefinite" path="M352,252 C480,300 560,470 760,520 S980,580 1088,558"/></circle>
       <circle class="ts-particle pv" r="2.2"><animateMotion dur="3.1s" repeatCount="indefinite" path="M768,684 C820,640 950,600 1088,558"/></circle>
       <circle class="ts-particle wind2" r="2.2"><animateMotion dur="3.4s" repeatCount="indefinite" path="M352,252 C560,180 760,180 960,198"/></circle>
       <circle class="ts-particle factory" r="2.2"><animateMotion dur="2.4s" repeatCount="indefinite" path="M1088,558 C1140,500 1200,430 1248,360"/></circle>
       <circle class="ts-particle grid" r="2.2"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1088,558 C1040,460 1000,300 960,198"/></circle>
+      <circle class="ts-particle pv2" r="2.2"><animateMotion dur="3.3s" repeatCount="indefinite" path="M768,684 C900,700 1100,600 1248,360"/></circle>
+      <circle class="ts-particle factory2" r="2.2"><animateMotion dur="2.9s" repeatCount="indefinite" path="M1248,360 C1180,300 1080,240 960,198"/></circle>
     </svg>
 
     <section class="ts-log" id="ts-log" aria-live="polite">
