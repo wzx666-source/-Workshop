@@ -62,23 +62,23 @@
         </filter>
       </defs>
       <!-- 演示前先描好的城市道路路径 -->
-      <path class="ts-route" d="M352,252 L352,420 Q352,450 382,450 L720,450 Q750,450 750,480 L750,558 L1088,558"/>
-      <path class="ts-route" d="M768,684 L768,630 Q768,600 798,600 L1058,600 Q1088,600 1088,570 L1088,558"/>
-      <path class="ts-route" d="M352,252 L352,160 Q352,130 382,130 L930,130 Q960,130 960,160 L960,198"/>
-      <path class="ts-route" d="M1088,558 L1088,480 Q1088,450 1118,450 L1248,450 L1248,360"/>
-      <path class="ts-route" d="M1088,558 L1088,510 Q1088,480 1058,480 L960,480 L960,198"/>
+      <path class="ts-route" d="M352,252 C480,300 560,470 760,520 S980,580 1088,558"/>
+      <path class="ts-route" d="M768,684 C820,640 950,600 1088,558"/>
+      <path class="ts-route" d="M352,252 C560,180 760,180 960,198"/>
+      <path class="ts-route" d="M1088,558 C1140,500 1200,430 1248,360"/>
+      <path class="ts-route" d="M1088,558 C1040,460 1000,300 960,198"/>
 
       <!-- 电力按协议流动 -->
-      <path class="ts-path wind" d="M352,252 L352,420 Q352,450 382,450 L720,450 Q750,450 750,480 L750,558 L1088,558"/>
-      <path class="ts-path pv" d="M768,684 L768,630 Q768,600 798,600 L1058,600 Q1088,600 1088,570 L1088,558"/>
-      <path class="ts-path wind2" d="M352,252 L352,160 Q352,130 382,130 L930,130 Q960,130 960,160 L960,198"/>
-      <path class="ts-path factory" d="M1088,558 L1088,480 Q1088,450 1118,450 L1248,450 L1248,360"/>
-      <path class="ts-path grid" d="M1088,558 L1088,510 Q1088,480 1058,480 L960,480 L960,198"/>
-      <circle class="ts-particle wind" r="4.5"><animateMotion dur="2.8s" repeatCount="indefinite" path="M352,252 L352,420 Q352,450 382,450 L720,450 Q750,450 750,480 L750,558 L1088,558"/></circle>
-      <circle class="ts-particle pv" r="4.5"><animateMotion dur="3.1s" repeatCount="indefinite" path="M768,684 L768,630 Q768,600 798,600 L1058,600 Q1088,600 1088,570 L1088,558"/></circle>
-      <circle class="ts-particle wind2" r="4.5"><animateMotion dur="3.4s" repeatCount="indefinite" path="M352,252 L352,160 Q352,130 382,130 L930,130 Q960,130 960,160 L960,198"/></circle>
-      <circle class="ts-particle factory" r="4.5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M1088,558 L1088,480 Q1088,450 1118,450 L1248,450 L1248,360"/></circle>
-      <circle class="ts-particle grid" r="4.5"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1088,558 L1088,510 Q1088,480 1058,480 L960,480 L960,198"/></circle>
+      <path class="ts-path wind" d="M352,252 C480,300 560,470 760,520 S980,580 1088,558"/>
+      <path class="ts-path pv" d="M768,684 C820,640 950,600 1088,558"/>
+      <path class="ts-path wind2" d="M352,252 C560,180 760,180 960,198"/>
+      <path class="ts-path factory" d="M1088,558 C1140,500 1200,430 1248,360"/>
+      <path class="ts-path grid" d="M1088,558 C1040,460 1000,300 960,198"/>
+      <circle class="ts-particle wind" r="2.2"><animateMotion dur="2.8s" repeatCount="indefinite" path="M352,252 C480,300 560,470 760,520 S980,580 1088,558"/></circle>
+      <circle class="ts-particle pv" r="2.2"><animateMotion dur="3.1s" repeatCount="indefinite" path="M768,684 C820,640 950,600 1088,558"/></circle>
+      <circle class="ts-particle wind2" r="2.2"><animateMotion dur="3.4s" repeatCount="indefinite" path="M352,252 C560,180 760,180 960,198"/></circle>
+      <circle class="ts-particle factory" r="2.2"><animateMotion dur="2.4s" repeatCount="indefinite" path="M1088,558 C1140,500 1200,430 1248,360"/></circle>
+      <circle class="ts-particle grid" r="2.2"><animateMotion dur="2.6s" repeatCount="indefinite" path="M1088,558 C1040,460 1000,300 960,198"/></circle>
     </svg>
 
     <section class="ts-log" id="ts-log" aria-live="polite">

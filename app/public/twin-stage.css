@@ -310,7 +310,7 @@ body {
 
 .ts-path {
   fill: none;
-  stroke-width: 3.8;
+  stroke-width: var(--w, 2.6);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: none;
@@ -318,26 +318,26 @@ body {
   transition: opacity 0.5s ease;
 }
 
-/* 外晕 / 中层辉光（由 JS 克隆生成） */
-.ts-glow { stroke-width: 20; opacity: 0; }
-.ts-mid { stroke-width: 9; opacity: 0; }
+/* 外晕 / 中层辉光（由 JS 克隆生成），宽度为线宽的 2–3 倍 */
+.ts-glow { stroke-width: calc(var(--w, 2.6) * 3); opacity: 0; }
+.ts-mid { stroke-width: calc(var(--w, 2.6) * 1.8); opacity: 0; }
 
 /* 演示前先描好的城市道路路径 */
 .ts-route {
   fill: none;
   stroke: rgba(170, 225, 255, 0.55);
-  stroke-width: 2;
+  stroke-width: 1;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: none;
-  opacity: 0.9;
+  opacity: 0.8;
   transition: opacity 0.4s ease;
 }
 
 .ts.is-flow .ts-route { opacity: 0.28; }
 
-.ts-path.wind, .ts-path.wind2, .ts-path.pv { stroke: #00e5ff; }
-.ts-path.factory, .ts-path.grid { stroke: #ffb347; }
+.ts-path.wind, .ts-path.wind2, .ts-path.pv { --w: 3; stroke: #00e5ff; }
+.ts-path.factory, .ts-path.grid { --w: 2; stroke: #ffb347; }
 
 .ts-particle { fill: #fff; opacity: 0; transition: opacity 0.5s ease; }
 .ts-particle.wind, .ts-particle.wind2 { fill: #e9fdff; }
@@ -350,8 +350,8 @@ body {
   animation: none;
 }
 
-.ts.is-flow .ts-mid { opacity: 0.5; }
-.ts.is-flow .ts-glow { opacity: 0.22; }
+.ts.is-flow .ts-mid { opacity: 0.3; }
+.ts.is-flow .ts-glow { opacity: 0.11; }
 .ts.is-flow .ts-particle { fill: #fff; opacity: 1; }
 
 @keyframes tsDash { to { stroke-dashoffset: -20; } }
